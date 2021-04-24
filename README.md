@@ -268,6 +268,6 @@ Automatic Alternative Docs (ReDoc): https://localhost/redoc
 
 PGAdmin: http://localhost:5050
 
-### Deployment
+## Deployment
 
 Build the image and deploy anywhere 🐳
