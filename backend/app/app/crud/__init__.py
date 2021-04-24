@@ -1,3 +1,4 @@
+from .crud_game import game
 from .crud_item import item
 from .crud_user import user
 
