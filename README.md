@@ -1,4 +1,4 @@
-# FastAPI CardGame
+# FastAPI CardGame ♦️♠️♥️♣️🃏
 
 ## Backend Requirements
 
