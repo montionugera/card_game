@@ -5,7 +5,7 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel, root_validator
 
-GAME_SIZE = 6
+from app.core.config import settings
 
 
 class GameInfoInDB(BaseModel):
@@ -15,9 +15,9 @@ class GameInfoInDB(BaseModel):
 
     @staticmethod
     def build_random_game() -> GameInfoInDB:
-        number_displays = [str(idx + 1) for idx in range(GAME_SIZE)] * 2
+        number_displays = [str(idx + 1) for idx in range(settings.GAME_SIZE)] * 2
         solutions = []
-        for _ in [idx for idx in range(GAME_SIZE)] * 2:
+        for _ in [idx for idx in range(settings.GAME_SIZE)] * 2:
             card_display_index = random.choice(range(len(number_displays)))
             card_display = number_displays.pop(card_display_index)
             solutions.append(card_display)
@@ -85,7 +85,7 @@ class GameInfo(BaseModel):
     @root_validator
     def validate_date(cls, values):
         values["is_game_end"] = (
-            len(values["answer_as_position_in_sequence"]) == GAME_SIZE * 2
+            len(values["answer_as_position_in_sequence"]) == settings.GAME_SIZE * 2
         )
         return values
 

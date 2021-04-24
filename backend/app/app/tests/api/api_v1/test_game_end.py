@@ -7,7 +7,6 @@ from app.core.config import settings
 from app.models import CardGame
 from app.schemas import CardGame as CardGameAPIModel
 from app.schemas import GameInfoInDB
-from app.schemas.game import GAME_SIZE
 
 
 def test_open_card_til_game_end_data_should_success(
@@ -43,7 +42,7 @@ def test_open_card_til_game_end_data_should_success(
             headers=normal_user_token_headers,
             json=data,
         )
-    for i in range(GAME_SIZE):
+    for i in range(settings.GAME_SIZE):
         pos1, pos2 = position_by_display[str(i + 1)]
         client.post(
             f"{settings.API_V1_STR}/games/{card_game.id}/open_card/{pos1}",
@@ -57,9 +56,12 @@ def test_open_card_til_game_end_data_should_success(
         )
     assert response.status_code == 200
     card_game = CardGameAPIModel(**response.json())
-    assert len(card_game.game_info.answer_as_position_in_sequence) == GAME_SIZE * 2
-    assert len(card_game.game_info.display_by_answer) == GAME_SIZE * 2
-    assert card_game.open_count == mistake_count * 2 + GAME_SIZE * 2
+    assert (
+        len(card_game.game_info.answer_as_position_in_sequence)
+        == settings.GAME_SIZE * 2
+    )
+    assert len(card_game.game_info.display_by_answer) == settings.GAME_SIZE * 2
+    assert card_game.open_count == mistake_count * 2 + settings.GAME_SIZE * 2
     assert card_game.game_info.is_game_end is True
     response = client.get(
         f"{settings.API_V1_STR}/best_scores/",
