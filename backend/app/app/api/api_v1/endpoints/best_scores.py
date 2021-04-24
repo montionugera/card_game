@@ -18,9 +18,9 @@ def read_best_scores(
     user_id: Optional[int] = None,
 ) -> Any:
     """
-    Retrieve items.
+    Retrieve best score order by min_open_count asc
     """
     stmt = db.query(BestScore)
     if user_id is not None:
         stmt = stmt.filter(BestScore.user_id == user_id)
-    return stmt.offset(skip).limit(limit).order_by(BestScore.min_open_count)
+    return stmt.order_by(BestScore.min_open_count).offset(skip).limit(limit).all()

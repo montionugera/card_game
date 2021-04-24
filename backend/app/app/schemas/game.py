@@ -98,3 +98,12 @@ class CardGame(CardGameInDBBase):
 # Properties properties stored in DB
 class CardGameInDB(CardGameInDBBase):
     pass
+
+
+class BestScore(BaseModel):
+    id: int
+    user_id: int
+    min_open_count: int
+
+    class Config:
+        orm_mode = True

@@ -100,7 +100,7 @@ def test_open_incorrect_card_in_game_should_success(
     assert response.status_code == 200
     card_game = CardGameAPIModel(**response.json())
     assert len(card_game.game_info.answer_as_position_in_sequence) == 0
-    assert len(card_game.game_info.display_by_answer) == 0
+    assert len(card_game.game_info.display_by_answer) == 1
     assert card_game.open_count == 2
     assert card_game.game_info.is_game_end is False
 
