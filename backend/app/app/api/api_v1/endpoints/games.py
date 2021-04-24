@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -10,25 +10,6 @@ from app.models.card_game import BestScore
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.CardGame])
-def read_games(
-    db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 100,
-    current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
-    """
-    Retrieve items.
-    """
-    if crud.user.is_superuser(current_user):
-        items = crud.game.get_multi(db, skip=skip, limit=limit)
-    else:
-        items = crud.game.get_multi_by_owner(
-            db=db, owner_id=current_user.id, skip=skip, limit=limit
-        )
-    return items
-
-
 @router.post("/", response_model=schemas.CardGame)
 def create_game(
     *,
@@ -37,7 +18,7 @@ def create_game(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Create new item.
+    Create new game.
     """
     item = crud.game.create_with_owner(db=db, obj_in=game_in, owner_id=current_user.id)
     return item
@@ -92,7 +73,7 @@ def read_game(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Get item by ID.
+    Get Game by ID.
     """
     item = crud.game.get(db=db, id=id)
 
