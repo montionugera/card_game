@@ -17,3 +17,5 @@ class User(Base):
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
     items = relationship("Item", back_populates="owner")
+    card_games = relationship("CardGame", back_populates="owner")
+    best_score = relationship("BestScore", back_populates="user", uselist=False)
