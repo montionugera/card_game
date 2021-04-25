@@ -93,6 +93,26 @@ class GameInfo(BaseModel):
 # Properties to return to client
 class CardGame(CardGameInDBBase):
     game_info: GameInfo
+    total_card: int = settings.GAME_SIZE * 2
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "game_info": {
+                    "answer_as_position_in_sequence": [1, 3, 8, 7],
+                    "display_by_answer": {
+                        "answer_position ( 1,2,3)": "display on client",
+                        "answer_position ( 4)": "display on client",
+                        "answer_position ( 5)": "display on client",
+                    },
+                    "is_game_end": True,
+                },
+                "open_count": 0,
+                "id": 0,
+                "owner_id": 0,
+                "total_card": 12,
+            }
+        }
 
 
 # Properties properties stored in DB
