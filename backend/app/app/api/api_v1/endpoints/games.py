@@ -24,16 +24,16 @@ def create_game(
     return item
 
 
-@router.post("/{id}/open_card/{card_pos}", response_model=schemas.CardGame)
+@router.post("/{id}/open_card/{card_position}", response_model=schemas.CardGame)
 def open_card(
     *,
     db: Session = Depends(deps.get_db),
     id: int,
-    card_pos: int,
+    card_position: int,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    try to open card
+    try to open card with card position 0-11
     """
     card_game = crud.game.get(db=db, id=id)
     if not card_game:
@@ -44,7 +44,7 @@ def open_card(
         raise HTTPException(status_code=400, detail="Not enough permissions")
     game_info_json = card_game.game_info
     game_info = schemas.game.GameInfoInDB(**game_info_json)
-    game_info.accept_answer_if_in_condition(card_pos)
+    game_info.accept_answer_if_in_condition(card_position)
     card_game.game_info = game_info.dict()
     card_game.open_count += 1
 
